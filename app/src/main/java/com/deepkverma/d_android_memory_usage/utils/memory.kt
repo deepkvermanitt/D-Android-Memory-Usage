@@ -3,7 +3,7 @@ package com.deepkverma.d_android_memory_usage.utils
 import timber.log.Timber
 
 
-fun logCurrentMemoryProfile(src: String) {
+fun logCurrentMemoryProfile(src: String): String {
     val maxMemoryInMB = Runtime.getRuntime().maxMemory() / 1024 / 1024
     val totalMemoryInMB = Runtime.getRuntime().totalMemory() / 1024 / 1024
     val freeMemoryInMB = Runtime.getRuntime().freeMemory() / 1024 / 1024
@@ -19,6 +19,7 @@ fun logCurrentMemoryProfile(src: String) {
 
     Timber.tag(src).d("***************************")
     Timber.tag(src).d("End for the source: $src")
+    return "maxMemoryInMB ${maxMemoryInMB} Source ${src}";
 }
 
 val listOfInt: MutableList<Int> = arrayListOf()
