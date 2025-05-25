@@ -12,31 +12,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.deepkverma.d_android_memory_usage.di.AppComponent
+import com.deepkverma.d_android_memory_usage.di.AppModule
+import com.deepkverma.d_android_memory_usage.di.DaggerAppComponent
 import com.deepkverma.d_android_memory_usage.ui.screen.memoryprofiler.MemoryProfilerScreen
 import com.deepkverma.d_android_memory_usage.ui.screen.memoryprofiler.MemoryProfilerViewModel
 import com.deepkverma.d_android_memory_usage.ui.theme.DAndroidMemoryUsageTheme
-import com.deepkverma.d_android_memory_usage.utils.addListOfInt
-import com.deepkverma.d_android_memory_usage.utils.logCurrentMemoryProfile
+import com.deepkverma.d_android_memory_usage.utils.MemoryLogger
+import com.deepkverma.d_android_memory_usage.utils.MemoryLogger.*
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var memoryLoggerViaDagger: MemoryLogger
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val appComponent =
+            DaggerAppComponent.builder().appModule(AppModule(application as App)).build()
+        appComponent.inject(this)
         enableEdgeToEdge()
         setContent {
-            logCurrentMemoryProfile("setContent")
+            memoryLoggerViaDagger.logCurrentMemoryProfile("setContent")
             DAndroidMemoryUsageTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    logCurrentMemoryProfile("MemoryProfilerScreen Before")
+                    memoryLoggerViaDagger.logCurrentMemoryProfile("MemoryProfilerScreen Before")
                     val memViewModel: MemoryProfilerViewModel = viewModel()
 
                     MemoryProfilerScreen(viewModel = memViewModel, onExecute = {
-                        logCurrentMemoryProfile("onExecute Before")
+                        memoryLoggerViaDagger.logCurrentMemoryProfile("onExecute Before")
                         memViewModel.logMemory()
-                        logCurrentMemoryProfile("onExecute After")
+                        memoryLoggerViaDagger.logCurrentMemoryProfile("onExecute After")
 
                     })
-                    logCurrentMemoryProfile("MemoryProfilerScreen After")
+                    memoryLoggerViaDagger.logCurrentMemoryProfile("MemoryProfilerScreen After")
 
                 }
             }

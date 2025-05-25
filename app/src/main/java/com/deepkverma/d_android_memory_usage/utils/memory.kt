@@ -2,6 +2,8 @@ package com.deepkverma.d_android_memory_usage.utils
 
 import timber.log.Timber
 
+class MemoryLogger{
+
 
 fun logCurrentMemoryProfile(src: String): String {
     val maxMemoryInMB = Runtime.getRuntime().maxMemory() / 1024 / 1024
@@ -27,4 +29,5 @@ fun addListOfInt() {
     for (i in 1..100000) {
         listOfInt.add(i)
     }
+}
 }
