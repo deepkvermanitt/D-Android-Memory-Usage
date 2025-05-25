@@ -1,6 +1,7 @@
 package com.deepkverma.d_android_memory_usage.ui.screen.memoryprofiler
 
 import androidx.lifecycle.ViewModel
+import com.deepkverma.d_android_memory_usage.utils.addListOfInt
 import com.deepkverma.d_android_memory_usage.utils.logCurrentMemoryProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,9 +12,12 @@ class MemoryProfilerViewModel : ViewModel() {
     val uiState: StateFlow<MemoryUiState> = _UiState.asStateFlow()
 
     fun logMemory(){
+        _domemoryIntensiveTask()
         val log = logCurrentMemoryProfile("App Launched")
         _UiState.value = MemoryUiState.Log(log)
     }
-
+    fun _domemoryIntensiveTask(){
+        addListOfInt()
+    }
 
 }

@@ -11,12 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.deepkverma.d_android_memory_usage.ui.screen.memoryprofiler.MemoryProfilerScreen
+import com.deepkverma.d_android_memory_usage.ui.screen.memoryprofiler.MemoryProfilerViewModel
 import com.deepkverma.d_android_memory_usage.ui.theme.DAndroidMemoryUsageTheme
 import com.deepkverma.d_android_memory_usage.utils.addListOfInt
 import com.deepkverma.d_android_memory_usage.utils.logCurrentMemoryProfile
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,11 +28,11 @@ class MainActivity : ComponentActivity() {
             DAndroidMemoryUsageTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     logCurrentMemoryProfile("MemoryProfilerScreen Before")
+                    val memViewModel: MemoryProfilerViewModel = viewModel()
 
-                    MemoryProfilerScreen(onExecute = {
+                    MemoryProfilerScreen(viewModel = memViewModel, onExecute = {
                         logCurrentMemoryProfile("onExecute Before")
-
-                        addListOfInt()
+                        memViewModel.logMemory()
                         logCurrentMemoryProfile("onExecute After")
 
                     })
@@ -54,7 +57,5 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    MemoryProfilerScreen(onExecute = {
 
-    })
 }

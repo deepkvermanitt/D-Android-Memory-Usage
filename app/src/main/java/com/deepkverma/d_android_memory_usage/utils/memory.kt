@@ -19,12 +19,12 @@ fun logCurrentMemoryProfile(src: String): String {
 
     Timber.tag(src).d("***************************")
     Timber.tag(src).d("End for the source: $src")
-    return "maxMemoryInMB ${maxMemoryInMB} Source ${src}";
+    return "usedMemoryInMB ${usedMemoryInMB} Source ${src}";
 }
 
 val listOfInt: MutableList<Int> = arrayListOf()
 fun addListOfInt() {
-    for (i in 1..10000000) {
+    for (i in 1..100000) {
         listOfInt.add(i)
     }
 }
